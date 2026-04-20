@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>K B Royal Serenity | Premium Rental</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           DESIGN SYSTEM
+           ========================================= */
+        :root {
+            --bg-deep: #060608;
+            --purple-accent: #120320;
+            --purple-glow: #7b22d6;
+            --gold-main: #c9a227;
+            --gold-light: #f0d278;
+            --gold-pale: #fdf3d0;
+            --gold-dark: #8a6c10;
+            --silver-main: #e2e8f0;
+            --text-main: #f2f0ec;
+            --text-muted: #8a8a8a;
+            --card-bg: rgba(16, 14, 20, 0.7);
+            --border-color: rgba(201, 162, 39, 0.12);
+            --border-mid: rgba(201, 162, 39, 0.3);
+            --border-strong: rgba(201, 162, 39, 0.55);
+            --gold-shadow: 0 0 24px rgba(201, 162, 39, 0.18);
+            --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px;
+            --transition: all 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+            --error-color: rgba(255, 85, 85, 0.8);
+            --error-glow: rgba(255, 85, 85, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-deep); color: var(--text-main);
+            min-height: 100vh; overflow-x: hidden; padding-bottom: 120px;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* --- BACKGROUND --- */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(90,20,160,0.22) 0%, transparent 70%),
+                        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(201,162,39,0.04) 0%, transparent 60%),
+                        var(--bg-deep);
+        }
+        .stars-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
+        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle 4s ease-in-out infinite alternate; opacity: 0.07; }
+        @keyframes twinkle { 0% { opacity: 0.04; transform: scale(0.8); } 100% { opacity: 0.35; transform: scale(1.1); box-shadow: 0 0 6px #fff8; } }
+
+        /* --- LANGUAGE --- */
+        body.lang-en .gu { display: none !important; }
+        body.lang-gu .en { display: none !important; }
+
+        /* --- LAYOUT --- */
+        .container { max-width: 600px; margin: 0 auto; padding: 0 20px; overflow-x: hidden; }
+
+        /* ==========================================
+           HOME HEADER
+           ========================================== */
+        .top-header-strip {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(6,6,8,0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px; margin: 0 -20px 28px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .home-nav-pills { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+        .home-nav-pills::-webkit-scrollbar { display: none; }
+        .home-pill {
+            white-space: nowrap; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08);
+            padding: 7px 16px; border-radius: 100px; font-size: 11.5px; font-weight: 600; color: #aaa;
+            cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 6px;
+        }
+        .home-pill:hover { border-color: var(--gold-main); color: var(--gold-light); background: rgba(201,162,39,0.08); }
+
+        /* --- LANGUAGE TOGGLE --- */
+        .lang-toggle-footer { display: inline-flex; background: rgba(0,0,0,0.35); border: 1px solid rgba(201,162,39,0.12); border-radius: 6px; overflow: hidden; opacity: 0.5; transition: var(--transition); }
+        .lang-toggle-footer:hover { opacity: 1; }
+        .lang-btn { padding: 5px 10px; font-size: 9.5px; font-weight: 800; cursor: pointer; color: var(--text-muted); transition: var(--transition); text-transform: uppercase; }
+        .lang-btn.active { background: var(--gold-main); color: #000; }
+
+        /* ==========================================
+           PROGRESS HEADER
+           ========================================== */
+        .progress-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(6,6,8,0.97); border-bottom: 1px solid var(--border-color);
+            padding: 14px 22px; display: none; align-items: center; gap: 16px;
+        }
+        .progress-header.visible { display: flex; animation: slideDown 0.38s forwards; }
+        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .progress-bar-bg { flex: 1; height: 5px; background: rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple-glow), var(--gold-main)); width: 0%; transition: 0.55s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 10px; }
+        .progress-text { font-size: 11px; font-weight: 700; color: var(--gold-main); min-width: 40px; text-align: right; letter-spacing: 0.5px; }
+
+        /* ==========================================
+           SCREENS
+           ========================================== */
+        .screen { display: none; width: 100%; }
+        .screen.active { display: block; animation: slideInRight 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* ==========================================
+           TYPOGRAPHY
+           ========================================== */
+        .text-gold { color: var(--gold-main); }
+        .text-gradient {
+            background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold-light) 40%, var(--gold-main) 75%, var(--gold-dark) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .text-silver { color: var(--silver-main); }
+        .text-accent { color: #b896f0; }
+
+        .step-heading-block { margin-bottom: 32px; text-align: center; }
+        .step-heading-block h2 { font-size: 34px; line-height: 1.1; margin-bottom: 6px; }
+        .step-heading-block p { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif; font-size: 27px; color: var(--gold-main);
+            margin: 52px 0 26px; text-align: center; padding-bottom: 14px;
+            border-bottom: 1px solid rgba(201,162,39,0.15); letter-spacing: 0.8px; position: relative;
+        }
+        .section-title::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--gold-main); }
+
+        /* ==========================================
+           HERO
+           ========================================== */
+        .hero { padding: 20px 0 18px; text-align: center; }
+        .badge { display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgba(201,162,39,0.35); padding: 7px 22px; border-radius: 100px; font-size: 10.5px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 22px; background: rgba(201,162,39,0.05); }
+        .hero h1 { font-size: 48px; line-height: 1.08; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .hero p.subtitle { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; }
+        .category-overview { margin: 32px 0 24px; text-align: center; }
+        .category-instruction { font-size: 10.5px; color: var(--gold-main); text-transform: uppercase; letter-spacing: 3px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px; }
+        .led-strip { height: 1px; flex: 1; max-width: 90px; background: rgba(201,162,39,0.18); position: relative; overflow: hidden; }
+        .led-strip::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); animation: ledSweep 2.8s infinite linear; }
+        .strip-right::after { animation-delay: 1.4s; }
+        @keyframes ledSweep { 0% { left: -100%; } 100% { left: 200%; } }
+        .category-list { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+        .category-list span.sep { color: var(--gold-dark); opacity: 0.4; }
+
+        /* ==========================================
+           16-ITEM GRIDS
+           ========================================== */
+        .grid-16 { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 10px; margin-bottom: 28px; }
+        .grid-item {
+            background: linear-gradient(145deg, rgba(255,255,255,0.025), rgba(255,255,255,0.008));
+            border: 1px solid rgba(255,255,255,0.055); border-radius: 16px; padding: 18px 10px;
+            display: flex; flex-direction: column; align-items: center; text-align: center; transition: var(--transition);
+        }
+        .grid-item:hover { background: rgba(201,162,39,0.07); border-color: rgba(201,162,39,0.28); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+        .grid-item .icon { font-size: 24px; margin-bottom: 10px; width: 46px; height: 46px; background: rgba(0,0,0,0.45); border: 1px solid rgba(201,162,39,0.18); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .grid-item h4 { font-size: 10.5px; color: #eee; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; }
+        .grid-item p { font-size: 9.5px; color: var(--text-muted); line-height: 1.3; }
+        .grid-item .highlight-text { color: var(--gold-main); font-weight: 600; }
+
+        /* ==========================================
+           GLASS CARDS
+           ========================================== */
+        .glass-card { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 26px; margin-bottom: 24px; }
+
+        /* ==========================================
+           INPUT SYSTEM
+           ========================================== */
+        .input-group { margin-bottom: 20px; }
+        .input-label { display: block; font-size: 11px; font-weight: 700; color: var(--gold-main); margin-bottom: 9px; text-transform: uppercase; letter-spacing: 1.5px; }
+        .input-field {
+            width: 100%; background: rgba(0,0,0,0.42); border: 1px solid rgba(201,162,39,0.15);
+            border-radius: var(--radius-md); padding: 15px 16px; color: var(--text-main); font-size: 15px;
+            font-family: 'DM Sans', sans-serif; transition: var(--transition); outline: none; -webkit-appearance: none;
+        }
+        .input-field::placeholder { color: rgba(138,138,138,0.6); font-size: 14px; }
+        .input-field:focus { border-color: var(--gold-main); background: rgba(0,0,0,0.65); box-shadow: 0 0 0 3px rgba(201,162,39,0.08); }
+        textarea.input-field { resize: vertical; min-height: 90px; line-height: 1.5; }
+
+        /* Validation error state */
+        .input-field.field-error { border-color: var(--error-color) !important; box-shadow: 0 0 0 3px var(--error-glow) !important; }
+        .input-field.field-error:focus { border-color: var(--error-color); }
+
+        .input-icon-wrap { position: relative; display: flex; align-items: center; }
+        .input-icon-wrap .input-icon { position: absolute; left: 15px; font-size: 17px; opacity: 0.65; pointer-events: none; }
+        .input-icon-wrap .input-field { padding-left: 48px; }
+
+        /* ==========================================
+           INLINE ERRORS
+           ========================================== */
+        .inline-error {
+            display: none; margin-top: 14px; padding: 12px 16px;
+            background: rgba(255,85,85,0.08); border: 1px solid rgba(255,85,85,0.2);
+            border-radius: 12px; color: #ff8080; font-size: 12px; font-weight: 700;
+            animation: errorPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes errorPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* ==========================================
+           LIVE SUMMARY BADGE
+           ========================================== */
+        .live-summary-badge {
+            text-align: center; margin: 18px 0 4px; min-height: 24px;
+            font-size: 12.5px; font-weight: 700; color: var(--gold-main);
+            letter-spacing: 0.5px; transition: all 0.4s ease; opacity: 0;
+        }
+        .live-summary-badge.has-content { opacity: 1; }
+
+        /* ==========================================
+           GRID SELECTOR (RADIO STYLE)
+           ========================================== */
+        .grid-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-selector.col-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .select-box {
+            background: rgba(16,14,20,0.65); border: 1px solid rgba(201,162,39,0.12);
+            border-radius: var(--radius-md); padding: 18px 12px;
+            text-align: center; cursor: pointer; transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .select-box::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(201,162,39,0.06), transparent 70%); opacity: 0; transition: var(--transition); }
+        .select-box:hover { border-color: rgba(201,162,39,0.35); background: rgba(201,162,39,0.05); box-shadow: 0 4px 16px rgba(201,162,39,0.08); }
+        .select-box:hover::before { opacity: 1; }
+        .select-box.selected { border-color: var(--gold-main); background: rgba(201,162,39,0.09); box-shadow: 0 0 0 1px rgba(201,162,39,0.2), 0 8px 24px rgba(201,162,39,0.15); transform: scale(1.025); }
+        .select-box.selected::before { opacity: 1; }
+        .select-box.selected .title { color: #fff; }
+        .select-box .title { font-size: 11.5px; font-weight: 700; color: var(--gold-light); letter-spacing: 0.8px; text-transform: uppercase; }
+
+        /* ==========================================
+           ITEM TOGGLE CARDS (Furnishing)
+           ========================================== */
+        .selection-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 18px; }
+        .item-card {
+            background: rgba(18,16,24,0.7); border: 1px solid rgba(201,162,39,0.1);
+            border-radius: var(--radius-md); padding: 16px;
+            display: flex; align-items: center; gap: 16px;
+            cursor: pointer; transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .item-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(201,162,39,0.04), transparent); opacity: 0; transition: var(--transition); }
+        .item-card:hover { border-color: rgba(201,162,39,0.28); background: rgba(24,20,32,0.85); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+        .item-card:hover::before { opacity: 1; }
+        .item-card.selected { border-color: var(--gold-main); background: rgba(201,162,39,0.08); box-shadow: 0 0 0 1px rgba(201,162,39,0.15), 0 8px 24px rgba(201,162,39,0.12); }
+        .item-card.selected::before { opacity: 1; }
+        .item-emoji-box { font-size: 26px; width: 52px; height: 52px; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: var(--transition); }
+        .item-card.selected .item-emoji-box { border-color: rgba(201,162,39,0.3); }
+        .item-info { flex: 1; }
+        .item-info h3 { font-size: 14.5px; font-weight: 600; margin-bottom: 4px; color: #e0e0e0; }
+        .item-card.selected .item-info h3 { color: #fff; }
+        .item-info p { font-size: 13.5px; font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--gold-main); }
+        .checkbox { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #444; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: var(--transition); }
+        .item-card.selected .checkbox { background: var(--gold-main); border-color: var(--gold-main); box-shadow: 0 0 10px rgba(201,162,39,0.4); }
+        .item-card.selected .checkbox::after { content: '✓'; color: #000; font-weight: 800; font-size: 12px; }
+
+        /* ==========================================
+           BOTTOM NAVIGATION
+           ========================================== */
+        .bottom-widget {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+            background: rgba(6,6,8,0.97); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid var(--border-color); padding: 14px 20px 22px;
+            display: flex; align-items: center; justify-content: space-between; gap: 14px;
+            transform: translateY(100%); transition: var(--transition);
+        }
+        .bottom-widget.visible { transform: translateY(0); }
+        .rent-lbl { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
+        .rent-val { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--gold-light); }
+        .btn-primary { background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-main) 60%, var(--gold-dark) 100%); color: #000; border: none; padding: 14px 22px; border-radius: var(--radius-md); font-size: 13px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 18px rgba(201,162,39,0.28); transition: var(--transition); text-transform: uppercase; letter-spacing: 1.2px; font-family: 'DM Sans', sans-serif; }
+        .btn-primary:hover { box-shadow: 0 6px 24px rgba(201,162,39,0.42); transform: translateY(-1px); }
+        .btn-primary.submit-btn { background: linear-gradient(135deg, #25D366, #1aad52); box-shadow: 0 4px 18px rgba(37,211,102,0.28); }
+        .btn-primary.submit-btn:hover { box-shadow: 0 6px 24px rgba(37,211,102,0.42); }
+        .btn-back { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #aaa; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; transition: var(--transition); letter-spacing: 0.5px; text-transform: uppercase; padding: 14px 16px; font-family: 'DM Sans', sans-serif; }
+        .btn-back:hover { border-color: rgba(201,162,39,0.3); color: var(--gold-light); }
+
+        /* ==========================================
+           PREMIUM RENT BOX
+           ========================================== */
+        .premium-rent-box {
+            background: linear-gradient(160deg, #111018 0%, #080608 100%);
+            border: 1px solid rgba(201,162,39,0.14); position: relative; overflow: hidden;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+        .premium-rent-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,162,39,0.5), transparent); }
+        .vip-badge { background: rgba(255,255,255,0.02); border-left: 2px solid rgba(123,34,214,0.6); padding: 14px 16px; border-radius: 4px 12px 12px 4px; margin-bottom: 22px; display: flex; gap: 12px; align-items: flex-start; }
+        .vip-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+        .rent-split-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; margin-top: 10px; }
+        .rent-box { background: rgba(10,9,14,0.75); border: 1px solid rgba(201,162,39,0.18); border-radius: 14px; padding: 16px 10px; text-align: center; box-shadow: inset 0 1px 8px rgba(201,162,39,0.03), 0 4px 14px rgba(0,0,0,0.4); position: relative; overflow: hidden; }
+        .rent-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,162,39,0.35), transparent); }
+        .box-label { font-size: 9.5px; color: #888; text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 7px; font-weight: 700; }
+        .box-value { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold-light); font-weight: 600; }
+        .rent-disclaimer { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 9.5px; color: var(--gold-main); margin-bottom: 26px; text-transform: uppercase; letter-spacing: 1.8px; font-weight: 700; }
+        .disclaimer-line { flex: 0 1 40px; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,162,39,0.4)); }
+        .disclaimer-line.right { background: linear-gradient(270deg, transparent, rgba(201,162,39,0.4)); }
+        .rent-disclaimer span { animation: softPulseText 3s ease-in-out infinite alternate; }
+        @keyframes softPulseText { 0% { opacity: 0.55; } 100% { opacity: 1; } }
+        .rent-title-with-stars { display: flex; justify-content: center; align-items: center; gap: 18px; }
+        .glowing-star { font-size: 20px; color: var(--gold-light); animation: elegantStarGlow 3s ease-in-out infinite alternate; }
+        .star-right { animation-delay: 1.5s; }
+        @keyframes elegantStarGlow { 0% { opacity: 0.4; filter: drop-shadow(0 0 2px rgba(201,162,39,0.15)); transform: scale(0.88); } 100% { opacity: 1; filter: drop-shadow(0 0 10px rgba(201,162,39,0.85)) drop-shadow(0 0 18px rgba(201,162,39,0.35)); transform: scale(1.1); color: #fff8e1; } }
+        .premium-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+        .premium-list li { display: flex; align-items: center; gap: 15px; padding: 15px 18px; background: rgba(255,255,255,0.015); border: 1px solid rgba(255,255,255,0.035); border-radius: 14px; transition: var(--transition); position: relative; overflow: hidden; }
+        .premium-list li::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, rgba(201,162,39,0.6), rgba(201,162,39,0.1)); opacity: 0; transition: var(--transition); }
+        .premium-list li:hover { border-color: rgba(201,162,39,0.2); background: rgba(201,162,39,0.04); transform: translateX(5px); }
+        .premium-list li:hover::before { opacity: 1; }
+        .icon-box-new { width: 40px; height: 40px; flex-shrink: 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(201,162,39,0.18); border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .icon-box-new svg { width: 18px; height: 18px; stroke: var(--gold-light); stroke-width: 1.7; filter: drop-shadow(0 0 4px rgba(201,162,39,0.25)); }
+        .premium-list li:hover .icon-box-new { border-color: var(--gold-main); transform: scale(1.08) rotate(4deg); }
+        .item-text { font-size: 13.5px; color: var(--gold-light); font-weight: 500; letter-spacing: 0.3px; transition: var(--transition); }
+        .premium-list li:hover .item-text { color: #fff; }
+        .btn-shimmer { background: linear-gradient(110deg, #c9a227 18%, #f0d278 38%, #fdf3d0 50%, #f0d278 62%, #c9a227 82%); background-size: 220% auto; color: #000; animation: shineGradient 3.5s linear infinite; box-shadow: 0 5px 20px rgba(201,162,39,0.28); border: none; }
+        .btn-shimmer:hover { box-shadow: 0 8px 28px rgba(201,162,39,0.48); transform: translateY(-2px); }
+        @keyframes shineGradient { to { background-position: 220% center; } }
+        .explanation-block { background: rgba(255,255,255,0.018); border: 1px solid rgba(201,162,39,0.1); border-radius: 14px; padding: 18px; margin: 22px 0; line-height: 1.65; }
+        .explanation-title { font-size: 12px; color: var(--gold-main); font-weight: 700; margin-bottom: 11px; text-transform: uppercase; letter-spacing: 1.2px; display: flex; align-items: center; gap: 8px; }
+        .explanation-text { font-size: 12.5px; color: #c0c0c0; text-align: justify; }
+        .furnish-instruction-block { text-align: center; margin: 26px 0 14px; animation: fadeInInstruction 1.5s ease-out; }
+        @keyframes fadeInInstruction { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .instruction-primary { font-size: 13.5px; color: var(--gold-main); font-weight: 700; letter-spacing: 0.3px; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .instruction-secondary { font-size: 11px; color: #777; font-weight: 500; }
+
+        /* ==========================================
+           STEP HELPERS
+           ========================================== */
+        .step-section-label {
+            text-align: center; color: var(--text-muted); font-size: 10.5px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; margin: 28px 0 16px;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .step-section-label::before, .step-section-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+        .occupants-header { text-align: center; color: var(--gold-main); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; }
+        .type-card-big { min-height: 115px; border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; }
+        .type-card-big span { font-size: 30px; }
+        .duration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .duration-full { grid-column: span 2; }
+
+        /* ==========================================
+           ENHANCED RECEIPT / SUMMARY
+           ========================================== */
+        .receipt { background: rgba(8,7,12,0.9); border: 1px solid rgba(201,162,39,0.2); border-radius: var(--radius-lg); padding: 0; margin-top: 18px; overflow: hidden; }
+        .receipt-section-title { font-size: 10px; font-weight: 800; color: var(--gold-main); text-transform: uppercase; letter-spacing: 2px; padding: 12px 20px 10px; background: rgba(201,162,39,0.06); border-bottom: 1px solid rgba(201,162,39,0.1); display: flex; align-items: center; gap: 8px; }
+        .receipt-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 11px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13.5px; gap: 10px; }
+        .receipt-row span:first-child { color: #888; white-space: nowrap; flex-shrink: 0; }
+        .receipt-row span:last-child { color: var(--text-main); font-weight: 600; text-align: right; line-height: 1.4; }
+        .receipt-row.total { font-weight: 700; font-size: 18px; color: var(--gold-main); background: rgba(201,162,39,0.05); border-bottom: none; padding: 16px 20px; }
+        .receipt-row.total span:first-child { color: var(--gold-main); }
+        .receipt-row.total span:last-child { color: var(--gold-light); font-size: 20px; }
+        .receipt-note { margin: 0; padding: 14px 20px; background: rgba(201,162,39,0.04); border-top: 1px dashed rgba(201,162,39,0.2); font-size: 11.5px; color: #aaa; text-align: center; line-height: 1.6; font-style: italic; }
+        
+        .summary-icon { text-align: center; font-size: 56px; margin-bottom: 6px; animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes popIn { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .summary-note { text-align: center; color: var(--gold-main); font-size: 12px; margin-top: 10px; margin-bottom: 6px; padding: 10px 16px; background: rgba(201,162,39,0.06); border-radius: 10px; border: 1px solid rgba(201,162,39,0.12); line-height: 1.5; }
+
+        .whatsapp-btn { background: linear-gradient(135deg, #20c05a, #25D366); color: #000; text-decoration: none; display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px; border-radius: var(--radius-md); font-weight: 800; font-size: 15px; margin-top: 18px; box-shadow: 0 8px 24px rgba(37,211,102,0.22); letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif; transition: var(--transition); gap: 8px; }
+        .whatsapp-btn:hover { box-shadow: 0 12px 30px rgba(37,211,102,0.35); transform: translateY(-1px); }
+
+        /* ==========================================
+           MOBILE
+           ========================================== */
+        @media (max-width: 600px) {
+            body { overscroll-behavior-y: none; padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+            .container { padding: 0 14px; }
+            .top-header-strip { padding: 10px 14px; margin: 0 -14px 22px; }
+            .home-pill { padding: 6px 13px; font-size: 10.5px; }
+            .hero h1 { font-size: 34px; }
+            .hero p.subtitle { font-size: 10px; letter-spacing: 2.5px; }
+            .badge { padding: 6px 16px; font-size: 9.5px; margin-bottom: 16px; }
+            .section-title { font-size: 22px; margin: 40px 0 20px; }
+            .grid-16 { grid-template-columns: repeat(2, 1fr); gap: 9px; }
+            .grid-item { padding: 14px 6px; border-radius: 13px; }
+            .grid-item .icon { width: 38px; height: 38px; font-size: 18px; border-radius: 10px; }
+            .glass-card { padding: 16px; }
+            .input-field { padding: 13px 14px; font-size: 14px; }
+            .input-icon-wrap .input-field { padding-left: 44px; }
+            .item-card { padding: 12px; gap: 11px; }
+            .item-emoji-box { width: 44px; height: 44px; font-size: 22px; border-radius: 10px; }
+            .select-box { padding: 14px 6px; border-radius: 12px; }
+            .type-card-big { min-height: 100px; }
+            .type-card-big span { font-size: 26px; }
+            .bottom-widget { padding: 11px 14px calc(11px + env(safe-area-inset-bottom)); gap: 11px; }
+            .rent-val { font-size: 22px; }
+            .rent-lbl { font-size: 9.5px; }
+            .btn-primary { padding: 13px 18px; font-size: 12px; flex: 1; }
+            .btn-back { font-size: 11px; padding: 13px 14px; }
+            .rent-split-boxes { gap: 10px; }
+            .rent-box { padding: 14px 8px; }
+            .box-value { font-size: 22px; }
+            .step-heading-block h2 { font-size: 28px; }
+            .glowing-star { font-size: 17px; }
+            .receipt-row { font-size: 12.5px; }
+        }
+    </style>
+</head>
+<body class="lang-en">
+
+    <div class="ambient-bg"></div>
+    <div class="stars-container" id="stars"></div>
+
+    <!-- PROGRESS HEADER -->
+    <div class="progress-header" id="prog-header">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+        <div class="progress-text" id="prog-text">1/12</div>
+    </div>
+
+    <div class="container" id="app-container">
+
+        <!-- ==========================================
+             STEP 0: HOME
+             ========================================== -->
+        <div class="screen active" id="step-0">
+            <div class="top-header-strip">
+                <div class="home-nav-pills">
+                    <div class="home-pill" onclick="document.getElementById('sec-hero').scrollIntoView({behavior:'smooth'})">🏠 <span class="en">Home</span><span class="gu">હોમ</span></div>
+                    <div class="home-pill" onclick="document.getElementById('sec-details').scrollIntoView({behavior:'smooth'})">🏢 <span class="en">Property</span><span class="gu">પ્રોપર્ટી</span></div>
+                    <div class="home-pill" onclick="document.getElementById('sec-location').scrollIntoView({behavior:'smooth'})">📍 <span class="en">Advantages</span><span class="gu">ફાયદા</span></div>
+                    <div class="home-pill" onclick="document.getElementById('sec-rent').scrollIntoView({behavior:'smooth'})">💰 <span class="en">Rent Specs</span><span class="gu">ભાડું</span></div>
+                </div>
+            </div>
+
+            <div class="hero" id="sec-hero">
+                <div class="badge"><span class="en">✨ Welcome ✨</span><span class="gu">✨ સ્વાગત છે ✨</span></div>
+                <h1 class="serif text-gradient">K B Royal Serenity</h1>
+                <p class="subtitle text-silver">
+                    <span class="en">Premium 3BHK Residence • Chandkheda</span>
+                    <span class="gu">પ્રીમિયમ 3BHK નિવાસ • ચાંદખેડા</span>
+                </p>
+                <div class="category-overview">
+                    <div class="category-instruction">
+                        <div class="led-strip"></div>
+                        <span class="en">Ideal for</span><span class="gu">આ લોકો માટે શ્રેષ્ઠ</span>
+                        <div class="led-strip strip-right"></div>
+                    </div>
+                    <div class="category-list">
+                        <span class="text-accent en">Family</span><span class="text-accent gu">પરિવાર</span>
+                        <span class="sep">•</span>
+                        <span class="text-accent en">Professionals</span><span class="text-accent gu">પ્રોફેશનલ્સ</span>
+                        <span class="sep">•</span>
+                        <span class="text-accent en">PG</span><span class="text-accent gu">પીજી (PG)</span>
+                        <span class="sep">•</span>
+                        <span class="text-accent en">Working Bachelors</span><span class="text-accent gu">વર્કિંગ બેચલર</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROPERTY EXCELLENCE -->
+            <div id="sec-details">
+                <h3 class="section-title"><span class="en">Property Excellence</span><span class="gu">પ્રોપર્ટીની સુવિધાઓ</span></h3>
+                <div class="grid-16">
+                    <div class="grid-item"><div class="icon">🏢</div><h4><span class="en">7th Floor</span><span class="gu">૭મો માળ</span></h4><p><span class="en">Road Facing</span><span class="gu">રોડ ફેસિંગ</span></p></div>
+                    <div class="grid-item"><div class="icon">📐</div><h4><span class="en">1450 Sq.Ft</span><span class="gu">૧૪૫૦ ફૂટ</span></h4><p><span class="en">Spacious Area</span><span class="gu">મોટો ફ્લેટ</span></p></div>
+                    <div class="grid-item"><div class="icon">🌅</div><h4><span class="en">East Facing</span><span class="gu">પૂર્વ દિશા</span></h4><p><span class="en">Vastu Compliant</span><span class="gu">વાસ્તુ મુજબ</span></p></div>
+                    <div class="grid-item"><div class="icon">🚗</div><h4><span class="en">Allotted</span><span class="gu">ફાળવેલ</span></h4><p><span class="en">Covered Parking</span><span class="gu">કવર પાર્કિંગ</span></p></div>
+                    <div class="grid-item"><div class="icon">🛡️</div><h4><span class="en">Security</span><span class="gu">સિક્યુરિટી</span></h4><p><span class="en">24x7 Guards</span><span class="gu">૨૪ કલાક રક્ષણ</span></p></div>
+                    <div class="grid-item"><div class="icon">📹</div><h4><span class="en">CCTV</span><span class="gu">CCTV</span></h4><p><span class="en">Full Surveillance</span><span class="gu">કેમેરા સજ્જ</span></p></div>
+                    <div class="grid-item"><div class="icon">🔥</div><h4><span class="en">Piped Gas</span><span class="gu">ગેસ લાઈન</span></h4><p><span class="en">Sabarmati Link</span><span class="gu">સાબરમતી કનેક્શન</span></p></div>
+                    <div class="grid-item"><div class="icon">💧</div><h4><span class="en">24x7 Water</span><span class="gu">૨૪ કલાક પાણી</span></h4><p><span class="en">Soft Water</span><span class="gu">મીઠું પાણી</span></p></div>
+                    <div class="grid-item"><div class="icon">🛗</div><h4><span class="en">Branded Lift</span><span class="gu">બ્રાન્ડેડ લિફ્ટ</span></h4><p><span class="en">High-Speed</span><span class="gu">હાઈ-સ્પીડ લિફ્ટ</span></p></div>
+                    <div class="grid-item"><div class="icon">⚡</div><h4><span class="en">Generator</span><span class="gu">જનરેટર</span></h4><p><span class="en">Power Backup</span><span class="gu">પાવર બેકઅપ</span></p></div>
+                    <div class="grid-item"><div class="icon">🌬️</div><h4><span class="en">Ventilated</span><span class="gu">હવાદાર</span></h4><p><span class="en">Cross Breeze</span><span class="gu">શુદ્ધ હવા</span></p></div>
+                    <div class="grid-item"><div class="icon">☀️</div><h4><span class="en">Sunlight</span><span class="gu">પ્રકાશ</span></h4><p><span class="en">Natural Light</span><span class="gu">કુદરતી પ્રકાશ</span></p></div>
+                    <div class="grid-item"><div class="icon">🌇</div><h4><span class="en">Open View</span><span class="gu">ખુલ્લો વ્યૂ</span></h4><p><span class="en">Big Balcony</span><span class="gu">મોટી બાલ્કની</span></p></div>
+                    <div class="grid-item"><div class="icon">🏡</div><h4><span class="en">Peaceful</span><span class="gu">શાંતિ</span></h4><p><span class="en">Elite Society</span><span class="gu">શાંત વાતાવરણ</span></p></div>
+                    <div class="grid-item"><div class="icon">📍</div><h4><span class="en">Strategic</span><span class="gu">મુખ્ય જગ્યા</span></h4><p><span class="en">Prime Location</span><span class="gu">પ્રીમિયમ લોકેશન</span></p></div>
+                    <div class="grid-item"><div class="icon">🧹</div><h4><span class="en">Clean</span><span class="gu">ચોખ્ખું</span></h4><p><span class="en">& Maintained</span><span class="gu">સંપૂર્ણ સ્વચ્છ</span></p></div>
+                </div>
+            </div>
+
+            <!-- LOCATION ADVANTAGES -->
+            <div id="sec-location">
+                <h3 class="section-title" style="margin-bottom: 10px;"><span class="en">Strategic Nearby Locations</span><span class="gu">નજીકના મુખ્ય સ્થળો</span></h3>
+                <p style="text-align:center;color:var(--text-muted);font-size:13px;max-width:90%;margin:0 auto 28px;line-height:1.6;">
+                    <span class="en">Located on the main road with seamless connectivity to SG Highway and key internal city routes.</span>
+                    <span class="gu">આ પ્રોપર્ટી મેઈન રોડ પર આવેલી છે, જે SG હાઈવે અને શહેરના મુખ્ય આંતરિક રસ્તાઓ સાથે સીધી કનેક્ટિવિટી આપે છે.</span>
+                </p>
+                <div class="grid-16">
+                    <div class="grid-item"><div class="icon">🏢</div><h4>ONGC Office</h4><p class="highlight-text">2.5 KM • 5 mins</p></div>
+                    <div class="grid-item"><div class="icon">🏥</div><h4>Apollo Hospital</h4><p class="highlight-text">3.2 KM • 7 mins</p></div>
+                    <div class="grid-item"><div class="icon">🏟️</div><h4>Modi Stadium</h4><p class="highlight-text">4.5 KM • 10 mins</p></div>
+                    <div class="grid-item"><div class="icon">🛍️</div><h4>4D Square Mall</h4><p class="highlight-text">2.8 KM • 6 mins</p></div>
+                    <div class="grid-item"><div class="icon">🛍️</div><h4>Palladium Mall</h4><p class="highlight-text">9.5 KM • 18 mins</p></div>
+                    <div class="grid-item"><div class="icon">🎬</div><h4>PVR Cinema</h4><p class="highlight-text">3.0 KM • 7 mins</p></div>
+                    <div class="grid-item"><div class="icon">🚇</div><h4>Motera Metro</h4><p class="highlight-text">3.5 KM • 8 mins</p></div>
+                    <div class="grid-item"><div class="icon">🚌</div><h4>BRTS Corridor</h4><p class="highlight-text">0.5 KM • Walk</p></div>
+                    <div class="grid-item"><div class="icon">🛣️</div><h4>SG Highway</h4><p class="highlight-text">1.2 KM • 3 mins</p></div>
+                    <div class="grid-item"><div class="icon">⭕</div><h4>Tapovan Circle</h4><p class="highlight-text">1.5 KM • 4 mins</p></div>
+                    <div class="grid-item"><div class="icon">🌆</div><h4>Gandhinagar</h4><p class="highlight-text">10.0 KM • 15 mins</p></div>
+                    <div class="grid-item"><div class="icon">🌊</div><h4>Sabarmati River</h4><p class="highlight-text">8.0 KM • 15 mins</p></div>
+                    <div class="grid-item"><div class="icon">🏫</div><h4>KV School</h4><p class="highlight-text">2.5 KM • 6 mins</p></div>
+                    <div class="grid-item"><div class="icon">🏫</div><h4>DPS School</h4><p class="highlight-text">12.0 KM • 20 mins</p></div>
+                    <div class="grid-item"><div class="icon">🛒</div><h4>Reliance Market</h4><p class="highlight-text">1.0 KM • 3 mins</p></div>
+                    <div class="grid-item"><div class="icon">✈️</div><h4>Airport (SVPI)</h4><p class="highlight-text">12.0 KM • 20 mins</p></div>
+                </div>
+            </div>
+
+            <!-- RENT SECTION -->
+            <div id="sec-rent">
+                <h3 class="section-title rent-title-with-stars">
+                    <span class="glowing-star star-left">✦</span>
+                    <span><span class="en">Premium Rent Specs</span><span class="gu">પ્રીમિયમ ભાડાની વિગત</span></span>
+                    <span class="glowing-star star-right">✦</span>
+                </h3>
+                <div class="glass-card premium-rent-box">
+                    <div class="vip-badge" style="background:linear-gradient(90deg,rgba(123,34,214,0.08),transparent);border-left:2px solid var(--purple-glow);">
+                        <div class="vip-icon" style="filter:drop-shadow(0 0 8px rgba(123,34,214,0.6));">💎</div>
+                        <p style="font-family:'DM Sans',sans-serif;font-size:14px;color:var(--gold-light);font-weight:500;line-height:1.55;margin:0;">
+                            <span class="en">Semi, Fully Furnished & Customised Options Available.</span>
+                            <span class="gu">સેમી, ફુલ્લી ફર્નિશ્ડ અને કસ્ટમાઇઝ્ડ વિકલ્પો ઉપલબ્ધ છે.</span>
+                        </p>
+                    </div>
+                    <div class="rent-split-boxes">
+                        <div class="rent-box"><div class="box-label"><span class="en">Rent / Month</span><span class="gu">માસિક ભાડું</span></div><div class="box-value">₹25,500</div></div>
+                        <div class="rent-box"><div class="box-label"><span class="en">Maintenance</span><span class="gu">મેન્ટેનન્સ</span></div><div class="box-value">+ ₹2,000</div></div>
+                    </div>
+                    <div class="rent-disclaimer">
+                        <div class="disclaimer-line"></div>
+                        <span><span class="en">* For Semi Furnished Only</span><span class="gu">* માત્ર સેમી ફર્નિશ્ડ માટે</span></span>
+                        <div class="disclaimer-line right"></div>
+                    </div>
+                    <p style="font-size:11.5px;color:var(--gold-main);font-weight:700;margin-bottom:18px;letter-spacing:1.8px;text-transform:uppercase;display:flex;align-items:center;gap:10px;justify-content:center;">
+                        <span style="font-size:14px;opacity:0.75;">✦</span>
+                        <span class="en">Semi-Furnished Includes</span><span class="gu">સેમી-ફર્નિશ્ડ સુવિધાઓ</span>
+                        <span style="font-size:14px;opacity:0.75;">✦</span>
+                    </p>
+                    <ul class="premium-list">
+                        <li><div class="icon-box-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3V3zM9 3v18M3 9h18M3 15h18"></path></svg></div><div class="item-text"><span class="en">Premium Modular Kitchen</span><span class="gu">પ્રીમિયમ મોડ્યુલર કિચન</span></div></li>
+                        <li><div class="icon-box-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M17 5H7M17 19H7M2 12h20"></path></svg></div><div class="item-text"><span class="en">Auto-Clean Chimney</span><span class="gu">ઓટો-ક્લીન ચીમની</span></div></li>
+                        <li><div class="icon-box-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg></div><div class="item-text"><span class="en">Fans & Lights Installed</span><span class="gu">પંખા અને લાઈટ્સ સજ્જ</span></div></li>
+                        <li><div class="icon-box-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path></svg></div><div class="item-text"><span class="en">Dedicated Store Room</span><span class="gu">સ્ટોર રૂમની સુવિધા</span></div></li>
+                        <li><div class="icon-box-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 21 2c-2.5 4-3 5.5-4.1 11.2A7 7 0 0 1 11 20Z"></path></svg></div><div class="item-text"><span class="en">Well Ventilated & Airy</span><span class="gu">હવાદાર અને પ્રકાશિત</span></div></li>
+                    </ul>
+                    <div class="explanation-block">
+                        <div class="explanation-title"><span style="font-size:15px;">🔶</span><span class="en">Customization & Upgrade Options</span><span class="gu">કસ્ટમાઇઝેશન અને અપગ્રેડ વિકલ્પો</span></div>
+                        <div class="explanation-text"><span class="en">For tenants seeking enhanced comfort, the home can be upgraded with fully customized furnishing options. You can choose specific items such as furniture, appliances, or complete room setups. All selected items will be provided brand new and installed before possession. Rent will be adjusted based on selected additions. This option is ideal for tenants planning a long-term stay. Alternatively, opt for the semi-furnished base option for a more economical rent.</span><span class="gu">વધારે આરામ ઈચ્છતા ભાડૂતો માટે, ઘરને સંપૂર્ણ કસ્ટમાઈઝ્ડ ફર્નિશિંગ વિકલ્પો સાથે અપગ્રેડ કરી શકાય છે. બધી વસ્તુઓ નવી આપવામાં આવશે. ભાડું પસંદ કરેલા ઉમેરાઓ પ્રમાણે ગોઠવવામાં આવશે.</span></div>
+                    </div>
+                    <div class="furnish-instruction-block">
+                        <div class="instruction-primary"><span class="en">🔽 Explore More Furnishing Options Below</span><span class="gu">🔽 નીચે વધુ ફર્નિશિંગ વિકલ્પો જુઓ</span></div>
+                        <div class="instruction-secondary"><span class="en">Customize your home as per your needs</span><span class="gu">તમારી જરૂરિયાત મુજબ તમારું ઘર કસ્ટમાઇઝ કરો</span></div>
+                    </div>
+                    <button class="btn-primary btn-shimmer" style="width:100%;padding:20px;font-size:15px;border-radius:14px;" onclick="jumpToStep(1)">
+                        <span class="en">More Furnishing Options ❯</span><span class="gu">વધુ ફર્નિશિંગ વિકલ્પો ❯</span>
+                    </button>
+                </div>
+            </div>
+
+            <div style="display:flex;justify-content:center;margin-top:12px;">
+                <div class="lang-toggle-footer">
+                    <div class="lang-btn active" id="btn-en" onclick="setLang('en')">E</div>
+                    <div class="lang-btn" id="btn-gu" onclick="setLang('gu')">ગુ</div>
+                </div>
+            </div>
+            <div style="height:60px;"></div>
+        </div>
+
+        <!-- ==========================================
+             STEP 1: BASIC INFO
+             ========================================== -->
+        <div class="screen" id="step-1" style="padding-top:80px;">
+            <div class="step-heading-block">
+                <h2 class="serif text-gradient"><span class="en">Basic Info</span><span class="gu">પ્રાથમિક વિગતો</span></h2>
+                <p><span class="en">Please provide your details to continue</span><span class="gu">આગળ વધવા માટે કૃપા કરીને તમારી વિગતો આપો</span></p>
+            </div>
+
+            <div class="input-group" style="margin-bottom:22px;">
+                <label class="input-label"><span class="en">Full Name</span><span class="gu">પૂરું નામ</span></label>
+                <div class="input-icon-wrap">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="inp-name" class="input-field" placeholder="Enter full name" oninput="D.name=this.value; clearFieldError(this);">
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-bottom:32px;">
+                <label class="input-label"><span class="en">WhatsApp Number</span><span class="gu">વોટ્સએપ નંબર</span></label>
+                <div class="input-icon-wrap">
+                    <span class="input-icon">📱</span>
+                    <input type="tel" id="inp-phone" class="input-field" maxlength="10" placeholder="10-digit number" oninput="D.phone=this.value; clearFieldError(this);">
+                </div>
+            </div>
+
+            <div class="step-section-label">Who are you?</div>
+            <div class="grid-selector" style="gap:14px;">
+                <div class="select-box" id="role-tenant" onclick="selectRadio('role','Tenant',this,false); document.getElementById('step1-error').style.display='none';" style="padding:26px 10px;border-radius:18px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+                    <span style="font-size:34px;">🏠</span><div class="title">TENANT</div>
+                </div>
+                <div class="select-box" id="role-broker" onclick="selectRadio('role','Broker',this,false); document.getElementById('step1-error').style.display='none';" style="padding:26px 10px;border-radius:18px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+                    <span style="font-size:34px;">🤝</span><div class="title">BROKER</div>
+                </div>
+            </div>
+            <div class="inline-error" id="step1-error">⚠️ Please provide your name, 10-digit phone number, and select your role.</div>
+        </div>
+
+        <!-- ==========================================
+             STEP 2: LIVING SETUP & OCCUPANTS
+             ========================================== -->
+        <div class="screen" id="step-2" style="padding-top:80px;">
+            <div class="step-heading-block">
+                <h2 class="serif text-gradient">Living Setup</h2>
+                <p>Choose your profile and occupant details</p>
+            </div>
+
+            <div class="grid-selector" style="gap:14px;margin-bottom:14px;">
+                <div class="select-box type-card-big" onclick="selectRadio('type','Family',this,false); updateLiveSummary();">
+                    <span>👨‍👩‍👧</span><div class="title">Family</div>
+                </div>
+                <div class="select-box type-card-big" onclick="selectRadio('type','Professional',this,false); updateLiveSummary();">
+                    <span>💼</span><div class="title">Working Professionals</div>
+                </div>
+                <div class="select-box type-card-big" onclick="selectRadio('type','Bachelors',this,false); updateLiveSummary();">
+                    <span>👨</span><div class="title">Working Bachelors</div>
+                </div>
+                <div class="select-box type-card-big" onclick="selectRadio('type','PG',this,false); updateLiveSummary();">
+                    <span>🏠</span><div class="title">PG</div>
+                </div>
+            </div>
+
+            <div class="select-box" style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;width:100%;border-radius:16px;" onclick="selectRadio('type','Other',this,false); updateLiveSummary();">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <span style="font-size:22px;">✏️</span>
+                    <div class="title">Other Profile</div>
+                </div>
+                <input type="text" name="otherType" placeholder="Specify..." oninput="D.otherType=this.value;"
+                       style="background:rgba(0,0,0,0.4);border:1px solid rgba(201,162,39,0.2);border-radius:10px;padding:12px 16px;color:#fff;font-size:14px;outline:none;width:50%;font-family:'DM Sans',sans-serif;"
+                       onclick="event.stopPropagation()">
+            </div>
+
+            <div class="inline-error" id="step2-error">⚠️ Please select your living profile to continue.</div>
+
+            <!-- LIVE SUMMARY BADGE -->
+            <div class="live-summary-badge" id="live-summary"></div>
+
+            <!-- OCCUPANTS -->
+            <div style="margin-top:28px;">
+                <div class="occupants-header">Total Occupants</div>
+                <div class="input-group" style="margin-bottom:22px;">
+                    <label class="input-label">Total Number of People</label>
+                    <input type="number" name="totalPeople" class="input-field" value="1" min="1" oninput="handlePaxChange(this.value);" style="padding-left:18px;">
+                </div>
+                <div class="grid-selector" style="gap:14px;">
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label class="input-label">Adults 👨‍🦰</label>
+                        <input type="number" name="adults" class="input-field" placeholder="0" min="0" oninput="D.adults=this.value; recalcFromAdultsChildren();" style="padding-left:18px;">
+                    </div>
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label class="input-label">Children 👶</label>
+                        <input type="number" name="children" class="input-field" placeholder="0" min="0" oninput="D.children=this.value; recalcFromAdultsChildren();" style="padding-left:18px;">
+                    </div>
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label class="input-label">Male 👨</label>
+                        <input type="number" name="male" class="input-field" placeholder="0" min="0" oninput="D.male=this.value; recalcFromMaleFemale();" style="padding-left:18px;">
+                    </div>
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label class="input-label">Female 👩</label>
+                        <input type="number" name="female" class="input-field" placeholder="0" min="0" oninput="D.female=this.value; recalcFromMaleFemale();" style="padding-left:18px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             STEP 3: TIMELINE
+             ========================================== -->
+        <div class="screen" id="step-3" style="padding-top:80px;">
+            <div class="step-heading-block">
+                <h2 class="serif text-gradient">Timeline</h2>
+                <p>When are you looking to move in?</p>
+            </div>
+            <div class="input-group" style="margin-bottom:28px;">
+                <label class="input-label">Move-in Date</label>
+                <input type="date" id="inp-date" class="input-field" min="2026-04-01" oninput="D.date=this.value; clearFieldError(this);">
+            </div>
+            <div class="step-section-label">Preferred Duration</div>
+            <div class="duration-grid">
+                <div class="select-box" onclick="selectRadio('duration','1 Year',this,true)" style="padding:20px 10px;"><div class="title">1 Year</div></div>
+                <div class="select-box" onclick="selectRadio('duration','2 Years',this,true)" style="padding:20px 10px;"><div class="title">2 Years</div></div>
+                <div class="select-box duration-full" onclick="selectRadio('duration','3+ Years',this,true)" style="padding:20px 10px;">
+                    <div class="title" style="display:flex;align-items:center;justify-content:center;gap:8px;">⭐ 3+ Years (Preferred)</div>
+                </div>
+            </div>
+            <div class="inline-error" id="step3-error">⚠️ Please select a move-in date to continue.</div>
+        </div>
+
+        <!-- ==========================================
+             STEPS 4–10: ROOM FURNISHING
+             — Geyser added to each bedroom (step 4,5,6)
+             ========================================== -->
+        <div class="screen" id="step-4" style="padding-top:80px;">
+            <div class="step-heading-block"><h2 class="serif text-gradient">Master Bedroom</h2><p>Select furnishing items for this room</p></div>
+            <div id="grid-b1" class="selection-grid"></div>
+        </div>
+        <div class="screen" id="step-5" style="padding-top:80px;">
+            <div class="step-heading-block"><h2 class="serif text-gradient">Bedroom 2</h2><p>Select furnishing items for this room</p></div>
+            <div id="grid-b2" class="selection-grid"></div>
+        </div>
+        <div class="screen" id="step-6" style="padding-top:80px;">
+            <div class="step-heading-block"><h2 class="serif text-gradient">Bedroom 3</h2><p>Select furnishing items for this room</p></div>
+            <div id="grid-b3" class="selection-grid"></div>
+        </div>
+        <div class="screen" id="step-7" style="padding-top:80px;">
+            <div class="step-heading-block"><h2 class="serif text-gradient">Hall & Living Area</h2><p>Select furnishing items for the living space</p></div>
+            <div id="grid-hall" class="selection-grid"></div>
+        </div>
+        <div class="screen" id="step-8" style="padding-top:80px;">
+            <div class="step-heading-block"><h2 class="serif text-gradient">Kitchen & Appliances</h2><p>Select your kitchen appliances</p></div>
+            <div id="grid-kit" class="selection-grid"></div>
+        </div>
+        <div class="screen" id="step-9" style="padding-top:80px;">
+            <div class="step-heading-block"><h2 class="serif text-gradient">Bathroom</h2><p>Select bathroom fixtures</p></div>
+            <div id="grid-bath" class="selection-grid"></div>
+        </div>
+        <div class="screen" id="step-10" style="padding-top:80px;">
+            <div class="step-heading-block"><h2 class="serif text-gradient">Internet</h2><p>Choose your connectivity preference</p></div>
+            <div id="grid-net" class="selection-grid"></div>
+        </div>
+
+        <!-- ==========================================
+             STEP 11: FINAL DETAILS
+             (Preferred Location removed as instructed)
+             ========================================== -->
+        <div class="screen" id="step-11" style="padding-top:80px;">
+            <div class="step-heading-block">
+                <h2 class="serif text-gradient">Final Details</h2>
+                <p>Just a few more things to complete your inquiry</p>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Preferred Budget (Approx)</label>
+                <input type="text" class="input-field" placeholder="e.g. Flexible / ₹28,000 / ₹30,000" oninput="D.budget=this.value;">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Additional Requirements / Notes</label>
+                <textarea class="input-field" rows="4" placeholder="Any specific needs, preferences, or questions?" oninput="D.extra=this.value;"></textarea>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             STEP 12: FINAL SUMMARY
+             ========================================== -->
+        <div class="screen" id="step-12" style="padding-top:80px;">
+            <div class="summary-icon">🎉</div>
+            <div class="step-heading-block">
+                <h2 class="serif text-gradient">Your Inquiry Summary</h2>
+                <p>Review everything below before submitting</p>
+            </div>
+            <div id="receipt-box" class="receipt"></div>
+            <!-- WhatsApp CTA — kept for direct tap access on mobile -->
+            <a href="#" id="wa-link" class="whatsapp-btn" onclick="submitToGoogleSheets(D); handleRedirectHome();">
+                💬 Submit Inquiry to Owner
+            </a>
+            <p style="text-align:center;color:var(--text-muted);font-size:11px;margin-top:12px;line-height:1.5;">
+                This will open WhatsApp with your filled inquiry
+            </p>
+        </div>
+
+        <div class="screen" id="step-13"></div>
+        <div class="screen" id="step-14"></div>
+    </div>
+
+    <!-- ==========================================
+         BOTTOM NAVIGATION BAR
+         ========================================== -->
+    <div class="bottom-widget" id="bottom-widget">
+        <div class="rent-display">
+            <div class="rent-lbl"><span class="en">Monthly Rent</span><span class="gu">માસિક ભાડું</span></div>
+            <div class="rent-val" id="live-rent">₹25,500</div>
+        </div>
+        <div class="nav-buttons" style="display:flex;gap:10px;flex:1;justify-content:flex-end;max-width:270px;">
+            <button class="btn-back" onclick="prevStep()">❮ BACK</button>
+            <button class="btn-primary" id="btn-next" style="flex:1;" onclick="handleNextBtn()">NEXT ❯</button>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================
+           LANGUAGE
+           ========================================== */
+        let currentLang = 'en';
+        function setLang(lang) {
+            currentLang = lang;
+            document.body.className = 'lang-' + lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + lang)?.classList.add('active');
+        }
+
+        /* ==========================================
+           PRICING — geyser added per bedroom
+           ========================================== */
+        const PRICING = {
+            base: 25500, maint: 2000, pgExtra: 5000,
+            bed:  { ac: 1200, bed: 800, wardrobe: 450, curtains: 200, geyser: 250 },
+            hall: { sofa: 600, dining: 450, tv: 800 },
+            kit:  { fridge: 650, ro: 400, wash: 850 },
+            bath: { geyser: 250 },
+            net:  { wifi: 500 }
+        };
+
+        const LABELS = {
+            ac:       { e: '❄️',  n: 'AC (1.5 Ton)' },
+            bed:      { e: '🛏️',  n: 'Bed Set' },
+            wardrobe: { e: '🚪',  n: 'Wardrobe' },
+            curtains: { e: '🪟',  n: 'Curtains' },
+            geyser:   { e: '🔥',  n: 'Geyser' },
+            sofa:     { e: '🛋️',  n: 'Sofa Set' },
+            dining:   { e: '🍽️', n: 'Dining Table' },
+            tv:       { e: '📺',  n: 'Smart TV' },
+            fridge:   { e: '🧊',  n: 'Refrigerator' },
+            ro:       { e: '💧',  n: 'RO Purifier' },
+            wash:     { e: '🧺',  n: 'Washing Machine' },
+            wifi:     { e: '📶',  n: 'WiFi (50 Mbps)' }
+        };
+
+        /* ==========================================
+           DATA STORE
+           ========================================== */
+        let D = {
+            name: '', phone: '', role: '', type: '', pax: 1,
+            adults: 0, children: 0, male: 0, female: 0, otherType: '',
+            date: '', duration: '', budget: '', extra: '',
+            b1: {}, b2: {}, b3: {}, hall: {}, kit: {}, bath: {}, net: {}
+        };
+
+        let step = 0;
+        const totalFunnelSteps = 12;
+
+        /* ==========================================
+           NAVIGATION
+           ========================================== */
+        function jumpToStep(target) {
+            document.getElementById(`step-${step}`)?.classList.remove('active');
+            step = target;
+            document.getElementById(`step-${step}`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateUI();
+        }
+
+        function nextStep() {
+            if (step < totalFunnelSteps) {
+                document.getElementById(`step-${step}`)?.classList.remove('active');
+                step++;
+                document.getElementById(`step-${step}`)?.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                updateUI();
+            }
+        }
+
+        function prevStep() {
+            if (step > 0) {
+                document.getElementById(`step-${step}`)?.classList.remove('active');
+                step--;
+                document.getElementById(`step-${step}`)?.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                updateUI();
+            }
+        }
+
+        /* ==========================================
+           SMART VALIDATION
+           ========================================== */
+        function clearFieldError(el) {
+            if (el) { el.classList.remove('field-error'); el.style.boxShadow = ''; }
+        }
+
+        function markFieldError(el) {
+            if (!el) return;
+            el.classList.add('field-error');
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => el.focus(), 280);
+        }
+
+        function showError(id) {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'block';
+        }
+
+        function hideError(id) {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        }
+
+        function validateStep(s) {
+            // Clear previous errors
+            document.querySelectorAll('.input-field').forEach(f => f.classList.remove('field-error'));
+            ['step1-error','step2-error','step3-error'].forEach(id => hideError(id));
+
+            if (s === 1) {
+                const nameEl  = document.getElementById('inp-name');
+                const phoneEl = document.getElementById('inp-phone');
+                const nameOk  = D.name && D.name.trim().length >= 2;
+                const phoneOk = /^\d{10}$/.test(D.phone || '');
+                const roleOk  = !!D.role;
+                if (!nameOk)  { markFieldError(nameEl); return false; }
+                if (!phoneOk) { markFieldError(phoneEl); return false; }
+                if (!roleOk)  { showError('step1-error'); return false; }
+                return true;
+            }
+
+            if (s === 2) {
+                if (!D.type) { showError('step2-error'); return false; }
+                return true;
+            }
+
+            if (s === 3) {
+                const dateEl = document.getElementById('inp-date');
+                if (!D.date) { markFieldError(dateEl); showError('step3-error'); return false; }
+                return true;
+            }
+
+            // Steps 4–11: no required fields — optional furnishing
+            return true;
+        }
+
+        /* ==========================================
+           NEXT BUTTON HANDLER (with validation)
+           ========================================== */
+        function handleNextBtn() {
+            if (!validateStep(step)) return;
+            if (step === totalFunnelSteps) {
+                handleSubmitFinal();
+            } else {
+                nextStep();
+            }
+        }
+
+        /* ==========================================
+           AUTO CALCULATIONS
+           ========================================== */
+        // Adults + Children → update Total People
+        function recalcFromAdultsChildren() {
+            const adults   = parseInt(document.querySelector('[name="adults"]')?.value)   || 0;
+            const children = parseInt(document.querySelector('[name="children"]')?.value) || 0;
+            const total    = adults + children;
+            const totalEl  = document.querySelector('[name="totalPeople"]');
+            if (totalEl && total > 0) { totalEl.value = total; D.pax = total; }
+            calcRent();
+            updateLiveSummary();
+        }
+
+        // Male + Female → update Adults → then update Total People
+        function recalcFromMaleFemale() {
+            const male   = parseInt(document.querySelector('[name="male"]')?.value)   || 0;
+            const female = parseInt(document.querySelector('[name="female"]')?.value) || 0;
+            D.male = male; D.female = female;
+            const adults   = male + female;
+            const adultsEl = document.querySelector('[name="adults"]');
+            if (adultsEl && adults > 0) { adultsEl.value = adults; D.adults = adults; }
+            recalcFromAdultsChildren();
+        }
+
+        /* ==========================================
+           LIVE SUMMARY BADGE (step 2)
+           ========================================== */
+        function updateLiveSummary() {
+            const el = document.getElementById('live-summary');
+            if (!el) return;
+            const parts = [];
+            if (D.type) {
+                const labels = { Family: 'Family', Professional: 'Professionals', Bachelors: 'Bachelors', PG: 'PG Members', Other: D.otherType || 'Occupants' };
+                const pax = parseInt(D.pax) || 1;
+                parts.push((labels[D.type] || D.type) + ' of ' + pax);
+            }
+            const m = parseInt(D.male) || 0;
+            const f = parseInt(D.female) || 0;
+            if (m > 0 && f > 0)      parts.push(m + ' Male + ' + f + ' Female');
+            else if (m > 0)          parts.push(m + ' Male');
+            else if (f > 0)          parts.push(f + ' Female');
+            const text = parts.join('  •  ');
+            el.textContent = text ? '✦  ' + text : '';
+            el.classList.toggle('has-content', !!text);
+        }
+
+        /* ==========================================
+           CORE EXISTING FUNCTIONS (unchanged)
+           ========================================== */
+        function selectRadio(field, val, el, auto = false) {
+            D[field] = val;
+            el.parentElement.querySelectorAll('.select-box').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            if (auto) setTimeout(() => nextStep(), 400);
+        }
+
+        function toggleItem(group, item, el) {
+            D[group][item] = !D[group][item];
+            if (el) el.classList.toggle('selected', D[group][item]);
+            calcRent();
+        }
+
+        function handlePaxChange(val) { D.pax = parseInt(val) || 1; calcRent(); }
+
+        let currentTotal = PRICING.base;
+
+        function calcRent() {
+            let total = PRICING.base;
+            if (D.type === 'PG' && D.pax > 1) total += (D.pax - 1) * PRICING.pgExtra;
+            const gs = [['b1','bed'],['b2','bed'],['b3','bed'],['hall','hall'],['kit','kit'],['bath','bath'],['net','net']];
+            gs.forEach(([g,t]) => Object.keys(D[g]).forEach(k => { if (D[g][k]) total += PRICING[t][k]; }));
+            currentTotal = total;
+            document.getElementById('live-rent').innerText = `₹${total.toLocaleString('en-IN')}`;
+            return total;
+        }
+
+        /* ==========================================
+           UPDATE UI (progress + NEXT/SUBMIT swap)
+           ========================================== */
+        function updateUI() {
+            const btm  = document.getElementById('bottom-widget');
+            const prog = document.getElementById('prog-header');
+            const btn  = document.getElementById('btn-next');
+            if (!btm || !prog) return;
+
+            if (step === 0) {
+                btm.classList.remove('visible');
+                prog.classList.remove('visible');
+            } else {
+                btm.classList.add('visible');
+                prog.classList.add('visible');
+                document.getElementById('prog-fill').style.width = (step / totalFunnelSteps * 100) + '%';
+                document.getElementById('prog-text').innerText   = `${step}/${totalFunnelSteps}`;
+            }
+
+            // Swap NEXT → SUBMIT on last step
+            if (btn) {
+                if (step === totalFunnelSteps) {
+                    btn.textContent = '✓ SUBMIT';
+                    btn.classList.add('submit-btn');
+                } else {
+                    btn.textContent = 'NEXT ❯';
+                    btn.classList.remove('submit-btn');
+                }
+            }
+
+            if (step === totalFunnelSteps) buildSummary();
+        }
+
+        /* ==========================================
+           SUBMIT + REDIRECT HOME
+           ========================================== */
+        function handleSubmitFinal() {
+            buildSummary();
+            const waEl = document.getElementById('wa-link');
+            if (waEl && waEl.href && !waEl.href.endsWith('#')) {
+                window.open(waEl.href, '_blank');
+            }
+            submitToGoogleSheets(D);
+            setTimeout(() => {
+                jumpToStep(0);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 900);
+        }
+
+        function handleRedirectHome() {
+            setTimeout(() => {
+                jumpToStep(0);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 900);
+        }
+
+        /* ==========================================
+           ENHANCED FINAL SUMMARY
+           ========================================== */
+        function buildSummary() {
+            const total = calcRent();
+
+            const getItems = (group) =>
+                Object.keys(D[group]).filter(k => D[group][k]).map(k => LABELS[k]?.n || k).join(', ') || null;
+
+            const b1Items   = getItems('b1');
+            const b2Items   = getItems('b2');
+            const b3Items   = getItems('b3');
+            const hallItems = getItems('hall');
+            const kitItems  = getItems('kit');
+            const bathItems = getItems('bath');
+            const netItems  = getItems('net');
+
+            const hasAnyFurnishing = b1Items || b2Items || b3Items || hallItems || kitItems || bathItems || netItems;
+
+            let h = '';
+
+            /* — Personal Info — */
+            h += `<div class="receipt-section-title">👤 Personal Details</div>`;
+            h += `<div class="receipt-row"><span>Name</span><span>${D.name || '—'}</span></div>`;
+            h += `<div class="receipt-row"><span>WhatsApp</span><span>${D.phone || '—'}</span></div>`;
+            h += `<div class="receipt-row"><span>Role</span><span>${D.role || '—'}</span></div>`;
+
+            /* — Living Profile — */
+            h += `<div class="receipt-section-title">🏠 Living Profile</div>`;
+            const typeLabel = D.type === 'Other' && D.otherType ? D.otherType : (D.type || '—');
+            h += `<div class="receipt-row"><span>Profile Type</span><span>${typeLabel}</span></div>`;
+            h += `<div class="receipt-row"><span>Total Occupants</span><span>${D.pax || 1}</span></div>`;
+            const adultCount    = parseInt(D.adults)   || 0;
+            const childrenCount = parseInt(D.children) || 0;
+            const maleCount     = parseInt(D.male)     || 0;
+            const femaleCount   = parseInt(D.female)   || 0;
+            if (adultCount)    h += `<div class="receipt-row"><span>Adults</span><span>${adultCount}</span></div>`;
+            if (childrenCount) h += `<div class="receipt-row"><span>Children</span><span>${childrenCount}</span></div>`;
+            if (maleCount || femaleCount) {
+                const genderStr = [maleCount ? `${maleCount} Male` : '', femaleCount ? `${femaleCount} Female` : ''].filter(Boolean).join(' + ');
+                h += `<div class="receipt-row"><span>Gender Split</span><span>${genderStr}</span></div>`;
+            }
+
+            /* — Timeline — */
+            if (D.date || D.duration) {
+                h += `<div class="receipt-section-title">📅 Timeline</div>`;
+                if (D.date)     h += `<div class="receipt-row"><span>Move-in Date</span><span>${D.date}</span></div>`;
+                if (D.duration) h += `<div class="receipt-row"><span>Duration</span><span>${D.duration}</span></div>`;
+            }
+
+            /* — Furnishing Selections — */
+            if (hasAnyFurnishing) {
+                h += `<div class="receipt-section-title">🛋️ Furnishing Selections</div>`;
+                if (b1Items)   h += `<div class="receipt-row"><span>Master Bedroom</span><span>${b1Items}</span></div>`;
+                if (b2Items)   h += `<div class="receipt-row"><span>Bedroom 2</span><span>${b2Items}</span></div>`;
+                if (b3Items)   h += `<div class="receipt-row"><span>Bedroom 3</span><span>${b3Items}</span></div>`;
+                if (hallItems) h += `<div class="receipt-row"><span>Hall / Living</span><span>${hallItems}</span></div>`;
+                if (kitItems)  h += `<div class="receipt-row"><span>Kitchen</span><span>${kitItems}</span></div>`;
+                if (bathItems) h += `<div class="receipt-row"><span>Bathroom</span><span>${bathItems}</span></div>`;
+                if (netItems)  h += `<div class="receipt-row"><span>Internet</span><span>${netItems}</span></div>`;
+            } else {
+                h += `<div class="receipt-section-title">🛋️ Furnishing</div>`;
+                h += `<div class="receipt-row"><span>Setup</span><span>Semi-Furnished (Base)</span></div>`;
+            }
+
+            /* — Budget / Notes — */
+            if (D.budget || D.extra) {
+                h += `<div class="receipt-section-title">📝 Additional Info</div>`;
+                if (D.budget) h += `<div class="receipt-row"><span>Budget</span><span>${D.budget}</span></div>`;
+                if (D.extra)  h += `<div class="receipt-row"><span>Notes</span><span style="font-style:italic;font-size:12.5px;">${D.extra}</span></div>`;
+            }
+
+            /* — Rent Breakdown — */
+            h += `<div class="receipt-section-title">💰 Rent Breakdown</div>`;
+            h += `<div class="receipt-row"><span>Base Rent</span><span>₹25,500</span></div>`;
+            h += `<div class="receipt-row"><span>Maintenance</span><span>₹2,000</span></div>`;
+            if (total > PRICING.base) {
+                h += `<div class="receipt-row"><span>Furnishing Add-ons</span><span>₹${(total - PRICING.base).toLocaleString('en-IN')}</span></div>`;
+            }
+            h += `<div class="receipt-row total"><span>Total / Month</span><span>₹${total.toLocaleString('en-IN')}</span></div>`;
+
+            /* — Negotiation Note — */
+            h += `<div class="receipt-note">📌 Rent can be negotiated on mutual understanding, subject to item selection and owner's discretion.</div>`;
+
+            document.getElementById('receipt-box').innerHTML = h;
+
+            /* — WhatsApp Message — */
+            const furnishList = [
+                b1Items   ? `Master BR: ${b1Items}`   : null,
+                b2Items   ? `BR2: ${b2Items}`          : null,
+                b3Items   ? `BR3: ${b3Items}`          : null,
+                hallItems ? `Hall: ${hallItems}`       : null,
+                kitItems  ? `Kitchen: ${kitItems}`     : null,
+                bathItems ? `Bath: ${bathItems}`       : null,
+                netItems  ? `Internet: ${netItems}`    : null,
+            ].filter(Boolean).join('\n') || 'Semi-Furnished Base';
+
+            const msg =
+`🌟 *K B ROYAL SERENITY — RENTAL INQUIRY* 🌟
+
+👤 *Name:* ${D.name} (${D.role})
+📞 *Mobile:* ${D.phone}
+👨‍👩‍👧 *Profile:* ${typeLabel} · ${D.pax || 1} Occupant(s)
+📅 *Move-in:* ${D.date || 'TBD'} | ${D.duration || 'TBD'}
+
+🛋️ *Furnishing:*
+${furnishList}
+
+💰 *Budget:* ${D.budget || 'Flexible'}
+📝 *Notes:* ${D.extra || 'None'}
+
+🔥 *REQUESTED TOTAL: ₹${total.toLocaleString('en-IN')} / month*`;
+
+            document.getElementById('wa-link').href = `https://wa.me/917383704082?text=${encodeURIComponent(msg)}`;
+        }
+
+        /* ==========================================
+           GOOGLE SHEETS (existing mock — unchanged)
+           ========================================== */
+        function submitToGoogleSheets(data) {
+            console.log("Mock Google Sheets Submission Triggered:", data);
+        }
+
+        /* ==========================================
+           RENDER ITEM CARDS
+           — geyser added to bedroom items list
+           ========================================== */
+        function renderItems(id, cat, keys, group) {
+            const container = document.getElementById(id);
+            if (!container) return;
+            let h = '';
+            keys.forEach(k => {
+                h += `<div class="item-card" onclick="toggleItem('${group}','${k}',this)">
+                    <div class="item-emoji-box">${LABELS[k].e}</div>
+                    <div class="item-info"><h3>${LABELS[k].n}</h3><p>+₹${PRICING[cat][k]}/mo</p></div>
+                    <div class="checkbox"></div>
+                </div>`;
+            });
+            container.innerHTML = h;
+        }
+
+        /* ==========================================
+           INIT
+           ========================================== */
+        window.onload = () => {
+            // Bedroom items now include geyser
+            const bedItems = ['ac', 'bed', 'wardrobe', 'curtains', 'geyser'];
+            renderItems('grid-b1',   'bed',  bedItems,                  'b1');
+            renderItems('grid-b2',   'bed',  bedItems,                  'b2');
+            renderItems('grid-b3',   'bed',  bedItems,                  'b3');
+            renderItems('grid-hall', 'hall', ['sofa','dining','tv'],    'hall');
+            renderItems('grid-kit',  'kit',  ['fridge','ro','wash'],    'kit');
+            renderItems('grid-bath', 'bath', ['geyser'],                'bath');
+            renderItems('grid-net',  'net',  ['wifi'],                  'net');
+
+            // Stars
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 60; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = Math.random() * 2 + 1;
+                s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-delay:${Math.random()*4}s;animation-duration:${3+Math.random()*3}s;`;
+                stars.appendChild(s);
+            }
+        };
+    </script>
+</body>
+</html>
